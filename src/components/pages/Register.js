@@ -1,9 +1,90 @@
 import React from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import Card from "@material-ui/core/Card";
+import CardActionArea from "@material-ui/core/CardActionArea";
+import CardActions from "@material-ui/core/CardActions";
+import CardContent from "@material-ui/core/CardContent";
+import CardMedia from "@material-ui/core/CardMedia";
+import Button from "@material-ui/core/Button";
+import Typography from "@material-ui/core/Typography";
+import TextField from "@material-ui/core/TextField";
+import { Link } from "react-router-dom";
 
-export default function Register() {
-    return (
-        <div>
-            <h1>Register</h1>
-        </div>
-    );
+const useStyles = makeStyles(theme =>({
+  root: {
+    maxWidth: 352,
+  },
+  media: {
+    height: 200,
+  },
+  form: {
+    width: 320,
+  },
+  submit: {
+    margin: theme.spacing(3,0,2)
+  },
+}));
+
+export default function Register(props) {
+  const classes = useStyles();
+
+  return (
+    <Card className={classes.root}>
+        <CardMedia
+            className={classes.media}
+            height={200}
+            image={`${process.env.PUBLIC_URL}/images/authen_header.jpg`}
+            title="Contemplative Reptile"
+        />
+        <CardContent>
+            <Typography gutterBottom variant="h5" component="h2">
+                Register
+            </Typography>
+            <form className={classes.form} noValidate autoComplete="off">
+            <TextField
+                id="username"
+                label="Username"
+                variant="outlined"
+                fullWidth
+                margin="normal"
+                autoComplete="email"
+                autoFocus
+                required
+            />
+            <TextField
+                id="password"
+                label="Password"
+                variant="outlined"
+                fullWidth
+                margin="normal"
+                autoComplete="current-password"
+                autoFocus
+                required
+            />
+            </form>
+        </CardContent>
+
+        <CardActions>
+            <Button size="small" color="primary" variant="contained" >
+                Register
+            </Button>
+            <Button 
+                size="small" 
+                color="primary"
+                variant="contained" 
+                // history เป็น props ที่ Route ยิงมา
+                onClick={()=>props.history.goBack()} 
+            >
+                Cancel
+            </Button>
+            
+            {/* 
+            <Link component={RouterLink} to="/register" variant="body2">
+                Register
+            </Link> 
+            */}
+
+        </CardActions>
+    </Card>
+  );
 }
