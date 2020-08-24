@@ -35,13 +35,15 @@ export default function Register(props) {
   const classes = useStyles();
 
   //  function showForm(props){..
-  function showForm({
+  function showForm(
+    {
     values,
     handleChange,
     handleSubmit,
     setFieldValue,
     isSubmitting
-  }) {
+    }
+  ) {
     return (
       <form className={classes.form} noValidate autoComplete="off" onSubmit={handleSubmit}>
         <TextField
@@ -69,7 +71,7 @@ export default function Register(props) {
           required
         />
         <Button type="submit" size="small" color="primary" variant="contained" style={{margin:3}}>
-          Register
+          Confirm
         </Button>
         <Button
           size="small"

@@ -7,6 +7,10 @@ import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import clsx from "clsx";
+import { withRouter } from "react-router-dom";
+
+import * as loginAction from "./../../actions/login.action";
+import { useDispatch } from "react-redux";
 
 const drawerWidth = 240;
 const useStyles = makeStyles(theme => ({
@@ -35,8 +39,10 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-export default function Header(props) {
+const Header = (props) => {
+
   const classes = useStyles();
+  const dispatch = useDispatch();
 
   return (
     <div className={classes.root}>
@@ -66,11 +72,20 @@ export default function Header(props) {
                 >
                     Count: {props.count}
                 </Button>
-                <Button color="inherit">Login</Button>
+                <Button 
+                    color="inherit"
+                    onClick={()=>{
+                        //console.log(props);
+                        //dispatch(loginAction.logout({...props,}));
+                        dispatch(loginAction.logout(props));
+                    }}
+                >
+                    Logout
+                </Button>
             </Toolbar>
         </AppBar>
     </div>
   );
 }
 
-
+export default withRouter(Header);
