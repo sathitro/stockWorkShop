@@ -40,7 +40,7 @@ const useStyles = makeStyles(theme => ({
 export default function App() {
 
   const classes = useStyles();
-  const [openDrawer, setOpenDrawer] = React.useState(false);
+  const [openDrawer, setOpenDrawer] = React.useState(true);
   const [count, setCount] = React.useState(0);
 
   const handleDrawerClose = () => {
@@ -51,6 +51,7 @@ export default function App() {
     setOpenDrawer(true);
   };
 
+  // call Reducer
   const loginReducer = useSelector(({loginReducer}) => loginReducer);
 
   return (
@@ -68,9 +69,9 @@ export default function App() {
         <Switch>
           <Route path="/login" component={Login} />
           <Route path="/register" component={Register} />
-          <Route path='/stock' component={Stock} />
-          <Route path='/stockCreate' component={StockCreate} />
-          <Route path='/stockEdit/:id' component={StockEdit} />
+          <Route path="/stock" component={Stock} />
+          <Route path="/stockCreate" component={StockCreate} />
+          <Route path="/stockEdit/:id" component={StockEdit} />
 
           <Route
             exact={true}
@@ -79,6 +80,7 @@ export default function App() {
           />
         </Switch>
       </Container>
+
     </Router>
   );
 }

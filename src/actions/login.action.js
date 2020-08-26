@@ -1,6 +1,7 @@
-// rxaction ninja
+
 import {LOGIN_FETCHING, LOGIN_FAILED, LOGIN_SUSCESS, LOGOUT } from "../constrant/Constrant";
 
+// rxaction ninja
 export const setStateToFetching = () => ({
     type: LOGIN_FETCHING,
 });

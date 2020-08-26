@@ -32,18 +32,11 @@ const useStyles = makeStyles(theme => ({
 
 
 export default function Register(props) {
+  
   const classes = useStyles();
 
   //  function showForm(props){..
-  function showForm(
-    {
-    values,
-    handleChange,
-    handleSubmit,
-    setFieldValue,
-    isSubmitting
-    }
-  ) {
+  function showForm( { values, handleChange, handleSubmit, setFieldValue, isSubmitting } ) {
     return (
       <form className={classes.form} noValidate autoComplete="off" onSubmit={handleSubmit}>
         <TextField

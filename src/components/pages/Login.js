@@ -61,16 +61,20 @@ export default function Login(props) {
             dispatch(loginAction.login({...account, ...props }));
             //props.history.push('/stock');
           }}
+
         >
           <TextField
             id="username"
             label="Username"
+
             // Subscipt value of state
             value={account.username}
+
             // Input assign to State
             onChange={e =>
               setAccount({ ...account, username: e.target.value })
             }
+
             variant="outlined"
             fullWidth
             margin="normal"
@@ -81,12 +85,15 @@ export default function Login(props) {
           <TextField
             id="password"
             label="Password"
+
             // Subscipt value of state
             value={account.password}
+
             // Input assign to State
             onChange={e =>
               setAccount({ ...account, password: e.target.value })
             }
+            
             variant="outlined"
             fullWidth
             margin="normal"

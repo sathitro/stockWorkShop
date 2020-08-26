@@ -48,9 +48,7 @@ const Header = (props) => {
     <div className={classes.root}>
         <AppBar
             position="fixed"
-            className={clsx(classes.appBar, {
-            [classes.appBarShift]: props.open
-            })}
+            className={clsx(classes.appBar, {[classes.appBarShift]: props.open})}
         >
         <Toolbar>
             <IconButton
@@ -62,6 +60,7 @@ const Header = (props) => {
             >
                 <MenuIcon />
             </IconButton>
+            
             <Typography variant="h6" className={classes.title}>
                 News
             </Typography>

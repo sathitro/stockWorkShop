@@ -17,7 +17,7 @@ export default (state = initialState, { type, payload }) => {
             return {...state,isFetching: false, error: false, result: payload}
         case LOGOUT:
             return initialState
-    default:
-        return state
+        default:
+            return state
     }
 }
