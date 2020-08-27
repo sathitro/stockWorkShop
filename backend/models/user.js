@@ -2,6 +2,7 @@ const Sequelize = require("sequelize");
 const dbInstant = require("../db_instance");
 
 const user = dbInstant.define(
+  //table "user"
   "user",
   {
     // attributes

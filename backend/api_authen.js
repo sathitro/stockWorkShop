@@ -11,7 +11,7 @@ const constants = require("./constant");
 router.post("/login", async (req, res) => {
 
   const { username, password } = req.body;
-
+  
   // user: Sequelize
   let result = await user.findOne({ where: { username: username } });
 
@@ -36,7 +36,7 @@ router.post("/register", async (req, res) => {
     let result = await user.create(req.body);
     res.json({ result: constants.kResultOk, message: JSON.stringify(result) });
   } catch (error) {
-    res.json({ result: constants.kResultNok, message: JSON.stringify(error) });
+    res.json({ result: constants.kResultNok, message: JSON.stringify(error.errors[0].message)});
   }
 
   // Promise without async/await

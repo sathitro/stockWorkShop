@@ -38,3 +38,8 @@ export const logout = ({history}) => {
     }
 }
 
+export const hasError = (payload) => {
+    return dispatch => {
+        dispatch(setStateToFailed(payload))
+    }
+}
