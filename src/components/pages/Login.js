@@ -1,4 +1,7 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
@@ -8,10 +11,10 @@ import CardMedia from "@material-ui/core/CardMedia";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
-import { Link } from "react-router-dom";
+import Alert from '@material-ui/lab/Alert';
 
 import * as loginAction from "./../../actions/login.action";
-import { useDispatch } from "react-redux";
+import loginReducer from "./../../reducers/login.reducer";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -31,13 +34,12 @@ const useStyles = makeStyles(theme => ({
 export default function Login(props) {
 
   const classes = useStyles();
-  
+  const dispatch = useDispatch();
+  const loginReducer = useSelector(({ loginReducer }) => loginReducer);
   const [account, setAccount] = React.useState({
     username: "admin",
     password: "1234"
   });
-
-  const dispatch = useDispatch();
 
   return (
     <Card className={classes.root}>
@@ -59,9 +61,7 @@ export default function Login(props) {
           onSubmit={e => {
             e.preventDefault();
             dispatch(loginAction.login({...account, ...props }));
-            //props.history.push('/stock');
           }}
-
         >
           <TextField
             id="username"
@@ -101,6 +101,12 @@ export default function Login(props) {
             autoFocus
             required
           />
+
+          {/* alert show when error */}
+          {loginReducer.error && (
+            <Alert severity="error" style={{margin:3}} >{loginReducer.result}</Alert>
+          )}
+
           <Button size="small" color="primary" variant="contained" type="submit" style={{margin:3}} >
             Signin
           </Button>

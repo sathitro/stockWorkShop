@@ -9,7 +9,11 @@ import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import Stock from "./components/pages/Stock";
 import StockCreate from "./components/pages/StockCreate";
 import StockEdit from "./components/pages/StockEdit";
-import {useSelector} from "react-redux";
+import {useSelector, useDispatch} from "react-redux";
+import Report from "./components/pages/Report";
+import AboutUs from "./components/pages/AboutUs";
+
+import * as loginActions from "./actions/login.action";
 
 import {
   BrowserRouter as Router,
@@ -37,11 +41,48 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
+// Protected Route
+const SecuredRoute = ({ component: Component, ...rest }) => (
+  <Route
+    {...rest}
+    render={props =>
+      // ternary condition
+      loginActions.isLoggedIn() ? (
+        <Component {...props} />
+      ) : (
+        <Redirect to="/login" />
+      )
+    }
+  />
+);
+
+const LoginRoute = ({ component: Component, ...rest }) => (
+  <Route
+    {...rest}
+    render={props =>
+      // ternary condition
+      loginActions.isLoggedIn() ? (
+        <Redirect to="/stock" />
+      ) : (
+        <Login {...props} />
+      )
+    }
+  />
+);
+
 export default function App() {
 
   const classes = useStyles();
   const [openDrawer, setOpenDrawer] = React.useState(true);
   const [count, setCount] = React.useState(0);
+  const dispatch = useDispatch();
+
+  React.useEffect(() => {
+    //componentDidMount
+    console.log("App created");
+    dispatch(loginActions.reLogin());
+  }, []);
+
 
   const handleDrawerClose = () => {
     setOpenDrawer(false);
@@ -57,27 +98,30 @@ export default function App() {
   return (
     <Router>
 
-      { loginReducer.result && (
+      { loginReducer.result && loginReducer.error !== true && (
         <Header handleDrawerOpen={handleDrawerOpen} open={openDrawer} count={count} setCount={setCount} />
       )}
 
-      { loginReducer.result && (
+      { loginReducer.result && loginReducer.error !== true && (
         <Menu open={openDrawer} handleDrawerClose={handleDrawerClose} />
       )}
 
       <Container className={classes.content}>
         <Switch>
-          <Route path="/login" component={Login} />
+          <LoginRoute path="/login" component={Login} />
           <Route path="/register" component={Register} />
-          <Route path="/stock" component={Stock} />
-          <Route path="/stockCreate" component={StockCreate} />
-          <Route path="/stockEdit/:id" component={StockEdit} />
+          <SecuredRoute path="/stock" component={Stock} />
+          <SecuredRoute path="/stockCreate" component={StockCreate} />
+          <SecuredRoute path="/stockEdit/:id" component={StockEdit} />
 
           <Route
             exact={true}
             path="/"
             component={() => <Redirect to="/login" />}
           />
+          <SecuredRoute path="/report" component={Report} />
+          <SecuredRoute path="/aboutus" component={AboutUs} />
+          
         </Switch>
       </Container>
 

@@ -11,6 +11,12 @@ import TextField from "@material-ui/core/TextField";
 import { Link } from "react-router-dom";
 import { Formik } from 'formik';
 
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+
 import Axios from "axios";
 import { apiUrl } from "../../constrant/Constrant";
 
@@ -96,48 +102,81 @@ export default function Register(props) {
   }
 
   return (
-    <Card className={classes.root}>
-      <CardMedia
-        className={classes.media}
-        height={200}
-        image={`${process.env.PUBLIC_URL}/images/authen_header.jpg`}
-        title="Contemplative Reptile"
-      />
-      <CardContent>
-        <Typography gutterBottom variant="h5" component="h2">
-          Register
-            </Typography>
+    <div>
+      <Card className={classes.root}>
+        <CardMedia
+          className={classes.media}
+          height={200}
+          image={`${process.env.PUBLIC_URL}/images/authen_header.jpg`}
+          title="Contemplative Reptile"
+        />
+        <CardContent>
+          <Typography gutterBottom variant="h5" component="h2">
+            Register
+              </Typography>
 
-        <Formik 
-          initialValues={{username:"admin",password:"1234"}} 
-          onSubmit={(values,{setSubmitting})=>{
-            setSubmitting(true);
-            //alert(JSON.stringify(values));
-            Axios.post("http://localhost:8085/api/v2/authen/register",values)
-            .then(result => {
-              setSubmitting(false);
-              //alert(JSON.stringify(result.data));
-              const {data} = result;
-              if(data === 'ok'){
+          <Formik 
+            initialValues={{username:"admin",password:"1234"}} 
+            onSubmit={(values,{setSubmitting})=>{
+              setSubmitting(true);
+              //alert(JSON.stringify(values));
+              Axios.post("http://localhost:8085/api/v2/authen/register",values)
+              .then(result => {
+                setSubmitting(false);
+                //alert(JSON.stringify(result.data));
+                const {data} = result;
+                //debugger;
+                if(data.result === 'ok'){
+                  dispatch(registerAction.registerSuccess('ok'));
+                }else{
+                  
+                  console.log(data.message);
+                  dispatch(registerAction.hasError(data.message));
+                }
 
-              }else{
-                console.log(data.message);
-                dispatch(registerAction.hasError(data.message));
-              }
+              })
+              .catch(error => {
+                setSubmitting(false);
+                alert(JSON.stringify(error));
+              });
+            }}
+          >
+            {props => showForm(props)}
 
-            })
-            .catch(error => {
-              setSubmitting(false);
-              alert(JSON.stringify(error));
-            });
-          }}
-        >
-          {props => showForm(props)}
+          </Formik>
 
-        </Formik>
+        </CardContent>
 
-      </CardContent>
+      </Card>
+      <Dialog
+        open={ !registerReducer.error && registerReducer.result === 'ok' }
+        //TransitionComponent={Transition}
+        keepMounted
+        //onClose={handleClose}
+        aria-labelledby="alert-dialog-slide-title"
+        aria-describedby="alert-dialog-slide-description"
+      >
+        <DialogTitle id="alert-dialog-slide-title">{"CONGRATURATION!"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-slide-description">
+            Register Success.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button 
+          onClick={()=>{
+            //set state to default
+            dispatch(registerAction.registerDefault());
+            // redirect
+            props.history.push('/login');
 
-    </Card>
+          }} 
+          color="primary">
+            Login Page
+          </Button>
+
+        </DialogActions>
+      </Dialog>
+    </div>
   );
 }

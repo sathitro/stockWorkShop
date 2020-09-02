@@ -16,6 +16,7 @@ router.post("/login", async (req, res) => {
   let result = await user.findOne({ where: { username: username } });
 
   if (result != null) {
+    // hash and compare password from db and from request
     if (bcrypt.compareSync(password, result.password)) {
       res.json({
         result: constants.kResultOk,
