@@ -65,6 +65,12 @@ export const reLogin = () => {
 }
 
 export const isLoggedIn = () => {
-    const loginStatus = localStorage.getItem(LOGIN_STATUS);
-    return loginStatus === "ok";
+    const loginStatus = localStorage.getItem(LOGIN_STATUS); // null,undefinded or 'ok'
+    
+    if(loginStatus === "ok"){
+        return true;
+    }else{
+        return false;
+    }
+    //return loginStatus === "ok";
 };

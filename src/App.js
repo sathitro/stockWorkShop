@@ -44,14 +44,10 @@ const useStyles = makeStyles(theme => ({
 // Protected Route
 const SecuredRoute = ({ component: Component, ...rest }) => (
   <Route
-    {...rest}
+    {...rest} // pass path as props
     render={props =>
       // ternary condition
-      loginActions.isLoggedIn() ? (
-        <Component {...props} />
-      ) : (
-        <Redirect to="/login" />
-      )
+      loginActions.isLoggedIn() ? (<Component {...props} />) : (<Redirect to="/login" />)
     }
   />
 );
@@ -61,11 +57,7 @@ const LoginRoute = ({ component: Component, ...rest }) => (
     {...rest}
     render={props =>
       // ternary condition
-      loginActions.isLoggedIn() ? (
-        <Redirect to="/stock" />
-      ) : (
-        <Login {...props} />
-      )
+      loginActions.isLoggedIn() ? (<Redirect to="/stock" />) : (<Login {...props} />)
     }
   />
 );
@@ -113,15 +105,13 @@ export default function App() {
           <SecuredRoute path="/stock" component={Stock} />
           <SecuredRoute path="/stockCreate" component={StockCreate} />
           <SecuredRoute path="/stockEdit/:id" component={StockEdit} />
-
+          <SecuredRoute path="/report" component={Report} />
+          <SecuredRoute path="/aboutus" component={AboutUs} />
           <Route
             exact={true}
             path="/"
             component={() => <Redirect to="/login" />}
           />
-          <SecuredRoute path="/report" component={Report} />
-          <SecuredRoute path="/aboutus" component={AboutUs} />
-          
         </Switch>
       </Container>
 
