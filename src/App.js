@@ -12,15 +12,17 @@ import StockEdit from "./components/pages/StockEdit";
 import {useSelector, useDispatch} from "react-redux";
 import Report from "./components/pages/Report";
 import AboutUs from "./components/pages/AboutUs";
-
 import * as loginActions from "./actions/login.action";
-
+import clsx from "clsx";
 import {
   BrowserRouter as Router,
   Route,
   Redirect,
   Switch
 } from "react-router-dom";
+
+
+const drawerWidth = 240;
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -35,10 +37,28 @@ const useStyles = makeStyles(theme => ({
   },
   content: {
     flexGrow: 1,
+    padding: theme.spacing(3),
+    transition: theme.transitions.create("margin", {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+    marginLeft: 0,
+  },
+  contentShift: {
+    transition: theme.transitions.create("margin", {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+    marginLeft: drawerWidth,
+  },
+  drawerHeader: {
     display: "flex",
-    justifyContent: "center",
-    padding: theme.spacing(20)
-  }
+    alignItems: "center",
+    padding: theme.spacing(0, 1),
+    // necessary for content to be below app bar
+    ...theme.mixins.toolbar,
+    justifyContent: "flex-end",
+  },
 }));
 
 // Protected Route
@@ -97,8 +117,14 @@ export default function App() {
       { loginReducer.result && loginReducer.error !== true && (
         <Menu open={openDrawer} handleDrawerClose={handleDrawerClose} />
       )}
-
-      <Container className={classes.content}>
+      <div className={classes.drawerHeader} />
+      <main
+        className={clsx(classes.content, {
+          [classes.contentShift]:
+            openDrawer && loginReducer.result && !loginReducer.error,
+        })}
+      >
+        <Container style={{ display: "flex", justifyContent: "center" }}>
         <Switch>
           <LoginRoute path="/login" component={Login} />
           <Route path="/register" component={Register} />
@@ -114,7 +140,7 @@ export default function App() {
           />
         </Switch>
       </Container>
-
+      </main>
     </Router>
   );
 }

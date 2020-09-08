@@ -43,3 +43,15 @@ export const NOT_CONNECT_NETWORK = "NOT_CONNECT_NETWORK";
 export const NETWORK_CONNECTION_MESSAGE = "Cannot connect to server, Please try again.";
 export const NETWORK_TIMEOUT_MESSAGE = "A network timeout has occurred, Please try again.";
 export const UPLOAD_PHOTO_FAIL_MESSAGE = "An error has occurred. The photo was unable to upload.";
+
+// Stock Page
+export const STOCK_FETCHING = "STOCK_FETCHING";
+export const STOCK_SUCCESS = "STOCK_SUCCESS";
+export const STOCK_FAILED = "STOCK_FAILED";
+export const STOCK_CLEAR = "STOCK_CLEAR";
+
+// Stock Edit Page
+export const STOCK_EDIT_FETCHING = "STOCK_EDIT_FETCHING";
+export const STOCK_EDIT_SUCCESS = "STOCK_EDIT_SUCCESS";
+export const STOCK_EDIT_FAILED = "STOCK_EDIT_FAILED";
+export const STOCK_EDIT_INITIALED = "STOCK_EDIT_INITIALED";
