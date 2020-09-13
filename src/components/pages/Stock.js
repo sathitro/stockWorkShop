@@ -1,12 +1,11 @@
 import React from "react";
-import MaterialTable from "material-table";
+import MaterialTable, { MTableToolbar } from "material-table";
 import { forwardRef } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Typography, Grid } from "@material-ui/core";
 import { imageUrl } from "./../../constrant/Constrant";
 import Moment from "react-moment";
 import NumberFormat from "react-number-format";
-
 import AddBox from "@material-ui/icons/AddBox";
 import ArrowDownward from "@material-ui/icons/ArrowDownward";
 import Check from "@material-ui/icons/Check";
@@ -22,8 +21,11 @@ import Remove from "@material-ui/icons/Remove";
 import SaveAlt from "@material-ui/icons/SaveAlt";
 import Search from "@material-ui/icons/Search";
 import ViewColumn from "@material-ui/icons/ViewColumn";
+import Button from "@material-ui/core/Button";
 import { useDispatch, useSelector } from "react-redux";
 import * as stockActions from "./../../actions/stock.action";
+import { Link } from "react-router-dom";
+
 
 const tableIcons = {
   Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
@@ -49,116 +51,156 @@ const tableIcons = {
   ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />),
 };
 
-export default function Stock() {
+export default function Stock(props) {
     
-  const dispatch = useDispatch();
-  const stockReducer = useSelector(({ stockReducer }) => stockReducer);
+    const dispatch = useDispatch();
+    const stockReducer = useSelector(({ stockReducer }) => stockReducer);
 
-  React.useEffect(() => {
-    dispatch(stockActions.getProducts());
-  }, []);
+    React.useEffect(() => {
+        dispatch(stockActions.getProducts());
+    }, []);
 
-  const columnsSimple = [
-    {
-      title: "Id",
-      field: "id",
-    },
-    {
-      title: "Name",
-      field: "name",
-    },
-    {
-      title: "Image",
-      field: "image",
-    },
-    {
-      title: "price",
-      field: "price",
-      type: "numeric"
-    },
-  ];
+    const columnsSimple = [
+        {
+            title: "Id",
+            field: "id",
+        },
+        {
+            title: "Name",
+            field: "name",
+        },
+        {
+            title: "Image",
+            field: "image",
+        },
+        {
+            title: "price",
+            field: "price",
+            type: "numeric"
+        },
+    ];
 
-  const columns = [
-    {
-      title: "Id",
-      //Typography -> fornt
-      render: (item) => <Typography variant="body1">{item.id}</Typography>,
-    },
-    {
-      title: "Image",
-      cellStyle: { padding: 0 },
-      render: (item) => (
-        <img
-          src={`${imageUrl}/images/${item.image}?dummy=${Math.random()}`}
-          style={{ width: 70, height: 70, borderRadius: "5%" }}
-        />
-      ),
-    },
-    {
-      title: "Name",
-      cellStyle: { minWidth: 700 },
-      render: (item) => <Typography variant="body1">{item.name}</Typography>,
-    },
+    const columns = [
+        {
+            title: "Id",
+            //Typography -> fornt
+            render: (item) => <Typography variant="body1">{item.id}</Typography>,
+        },
+        {
+            title: "Image",
+            cellStyle: { padding: 0 },
+            render: (item) => (
+                <img
+                    src={`${imageUrl}/images/${item.image}?dummy=${Math.random()}`}
+                    style={{ width: 70, height: 70, borderRadius: "5%" }}
+                    alt={item.image}
+                />
+            ),
+        },
+        {
+            title: "Name",
+            cellStyle: { minWidth: 700 },
+            render: (item) => <Typography variant="body1">{item.name}</Typography>,
+        },
 
-    {
-      title: "Price",
-      render: (item) => (
-        <Typography variant="body1">
-          <NumberFormat
-            value={item.price}
-            displayType={"text"}
-            thousandSeparator={true}
-            decimalScale={2}
-            fixedDecimalScale={true}
-            prefix={"฿"}
-          />
-        </Typography>
-      ),
-    },
-    {
-      title: "Stock",
-      render: (item) => (
-        <Typography variant="body1">
-          <NumberFormat
-            value={item.stock}
-            displayType={"text"}
-            thousandSeparator={true}
-            decimalScale={0}
-            fixedDecimalScale={true}
-            suffix={" pcs"}
-          />
-        </Typography>
-      ),
-    },
-    {
-      title: "Updated",
-      render: (item) => (
-        <Typography>
-          <Moment format="DD/MM/YYYY">{item.updatedAt}</Moment>
-        </Typography>
-      ),
-    },
-  ];
+        {
+            title: "Price",
+            render: (item) => (
+                <Typography variant="body1">
+                    <NumberFormat
+                        value={item.price}
+                        displayType={"text"}
+                        thousandSeparator={true}
+                        decimalScale={2}
+                        fixedDecimalScale={true}
+                        prefix={"฿"}
+                    />
+                </Typography>
+            ),
+        },
+        {
+            title: "Stock",
+            render: (item) => (
+                <Typography variant="body1">
+                    <NumberFormat
+                        value={item.stock}
+                        displayType={"text"}
+                        thousandSeparator={true}
+                        decimalScale={0}
+                        fixedDecimalScale={true}
+                        suffix={" pcs"}
+                    />
+                </Typography>
+            ),
+        },
+        {
+            title: "Updated",
+            render: (item) => (
+                <Typography>
+                    <Moment format="DD/MM/YYYY">{item.updatedAt}</Moment>
+                </Typography>
+            ),
+        },
+    ];
 
+    const useStyles = makeStyles((theme) => ({
+        root: {
+            width: "700",
+            marginTop: 0,
+        },
+    }));
 
+    const actions = [
+        {
+            icon: () => <Edit />,
+            iconProps: { color: "primary" },
+            tooltip: "Edit",
+            onClick: (event, rowData) => {
+                props.history.push("/stockEdit/" + rowData.id);
+            },
+        },
+        {
+            icon: () => <DeleteOutline />,
+            iconProps: { color: "action" },
+            tooltip: "Delete",
+            onClick: (event, rowData) => {},
+        },
+    ];
 
-  const useStyles = makeStyles((theme) => ({
-    root: {
-      width: "700",
-      marginTop: 0,
-    },
-  }));
+    const classes = useStyles();
 
-  const classes = useStyles();
+    return (
+        <div className={classes.root}>
+            <MaterialTable
+                icons={tableIcons}
+                columns={columns}
+                data={stockReducer.result ? stockReducer.result : []} // value or null
+                title="Stock"
+                // ยัดปุ่ม action ลงแต่ละ row
+                actions={actions}
+                // ยัด component เช่นปุ่ม
+                components={{
+                    Toolbar: (props) => (
+                        <div>
+                            <MTableToolbar {...props} />
 
-  return (
-    <div className={classes.root}>
-      <MaterialTable
-        icons={tableIcons}
-        columns={columns}
-        data={stockReducer.result ? stockReducer.result : []} // value or null
-        title="Stock"
-      />
-    </div>
+                            {/* Create button */}
+                            <div style={{ padding: "0px 10px" }}>
+                                <Button
+                                    fullWidth
+                                    variant="contained"
+                                    color="primary"
+                                    component={Link}
+                                    to="/stockCreate"
+                                >
+                                    Create
+                                </Button>
+                            </div>
+                            
+                        </div>
+                    ),
+                }}
+            />
+        </div>
   );
 }

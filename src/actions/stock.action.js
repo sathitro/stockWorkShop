@@ -29,3 +29,32 @@ const doGetProducts = async dispatch => {
       dispatch(setStateToFailed());
     }
 };
+
+// ไม่ได้เรียก reducer
+export const addProduct = (formData, history) => {
+  return async (dispatch) => {
+    await httpClient.post(server.PRODUCT_URL, formData);
+    //back to product page
+    history.goBack();
+  };
+};
+
+export const getProductById = (id) => {
+  return async (dispatch) => {
+    try {
+      dispatch(setStateToFetching());
+      let result = await httpClient.get(`${server.PRODUCT_URL}/${id}`);
+      dispatch(setStateToSuccess(result.data));
+    } catch (error) {
+      alert(JSON.stringify(error));
+      dispatch(setStateToFailed());
+    }
+  };
+};
+
+export const updateProduct = (formData, history) => {
+  return async dispatch => {
+    await httpClient.put(server.PRODUCT_URL, formData);
+    history.goBack();
+  };
+};

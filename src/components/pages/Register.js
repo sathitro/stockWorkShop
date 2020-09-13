@@ -1,32 +1,25 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
-import CardActionArea from "@material-ui/core/CardActionArea";
-import CardActions from "@material-ui/core/CardActions";
+// import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import { Formik } from 'formik';
-
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-
 import Axios from "axios";
-import { apiUrl } from "../../constrant/Constrant";
-
+// import { apiUrl } from "../../constrant/Constrant";
 import Alert from '@material-ui/lab/Alert';
-
 import { useDispatch, useSelector } from "react-redux";
-
-
 import * as registerAction from "./../../actions/register.action";
-import registerReducer from "./../../reducers/register.reducer";
+// import registerReducer from "./../../reducers/register.reducer";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -42,8 +35,6 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(3, 0, 2)
   },
 }));
-
-
 
 export default function Register(props) {
   
@@ -125,11 +116,9 @@ export default function Register(props) {
                 setSubmitting(false);
                 //alert(JSON.stringify(result.data));
                 const {data} = result;
-                //debugger;
                 if(data.result === 'ok'){
                   dispatch(registerAction.registerSuccess('ok'));
                 }else{
-                  
                   console.log(data.message);
                   dispatch(registerAction.hasError(data.message));
                 }

@@ -95,7 +95,6 @@ export default function App() {
     dispatch(loginActions.reLogin());
   }, []);
 
-
   const handleDrawerClose = () => {
     setOpenDrawer(false);
   };
@@ -117,28 +116,31 @@ export default function App() {
       { loginReducer.result && loginReducer.error !== true && (
         <Menu open={openDrawer} handleDrawerClose={handleDrawerClose} />
       )}
+
       <div className={classes.drawerHeader} />
+
       <main
+        // make login component mid
         className={clsx(classes.content, {
           [classes.contentShift]:
             openDrawer && loginReducer.result && !loginReducer.error,
         })}
       >
         <Container style={{ display: "flex", justifyContent: "center" }}>
-        <Switch>
-          <LoginRoute path="/login" component={Login} />
-          <Route path="/register" component={Register} />
-          <SecuredRoute path="/stock" component={Stock} />
-          <SecuredRoute path="/stockCreate" component={StockCreate} />
-          <SecuredRoute path="/stockEdit/:id" component={StockEdit} />
-          <SecuredRoute path="/report" component={Report} />
-          <SecuredRoute path="/aboutus" component={AboutUs} />
-          <Route
-            exact={true}
-            path="/"
-            component={() => <Redirect to="/login" />}
-          />
-        </Switch>
+          <Switch>
+            <LoginRoute path="/login" component={Login} />
+            <Route path="/register" component={Register} />
+            <SecuredRoute path="/stock" component={Stock} />
+            <SecuredRoute path="/stockCreate" component={StockCreate} />
+            <SecuredRoute path="/stockEdit/:id" component={StockEdit} />
+            <SecuredRoute path="/report" component={Report} />
+            <SecuredRoute path="/aboutus" component={AboutUs} />
+            <Route
+              exact={true}
+              path="/"
+              component={() => <Redirect to="/login" />}
+            />
+          </Switch>
       </Container>
       </main>
     </Router>
