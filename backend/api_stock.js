@@ -9,7 +9,7 @@ const fs = require("fs-extra");
 const Op = Sequelize.Op;
 
 // Upload Image
-uploadImage = async (files, doc) => {
+let uploadImage = async (files, doc) => {
   if (files.image != null) {
     var fileExtention = files.image.name.split(".")[1];
     doc.image = `${doc.id}.${fileExtention}`;

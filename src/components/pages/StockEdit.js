@@ -5,9 +5,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { Formik, Form, Field } from "formik";
-
 import { TextField } from "formik-material-ui";
-
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
@@ -28,6 +26,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function StockEdit(props) {
+
     const classes = useStyles();
     const dispatch = useDispatch();
     const stockReducer = useSelector(({ stockReducer }) => stockReducer);
@@ -149,7 +148,6 @@ export default function StockEdit(props) {
 
     return (
         <Container className={classes.root}>
-            
             {/* Main content */}
             <div className="box-body" style={{ marginTop: 30 }}>
                 <Formik
@@ -162,13 +160,13 @@ export default function StockEdit(props) {
                     }}
                     // enableReinitialize ถ้า inaitial value เปลี่ยน ให้ update form ใหม่
                     enableReinitialize
-                    initialValues={
+                    initialValues = {
                         // check ก่อนว่า มี result จาก Reducer ไหม 
                         stockReducer.result
                             ? stockReducer.result
                             : { name: " ", price: 0, stock: 0 }
                     }
-                    onSubmit={(values, { setSubmitting }) => {
+                    onSubmit = {(values, { setSubmitting }) => {
                         let formData = new FormData();
                         formData.append("id", values.id);
                         formData.append("name", values.name);
@@ -178,6 +176,7 @@ export default function StockEdit(props) {
                         if (values.file) {
                             formData.append("image", values.file);
                         }
+                        // ikeng: better check if values has changed
                         dispatch(stockActions.updateProduct(formData, props.history));
                         setSubmitting(false);
                     }}
@@ -188,4 +187,5 @@ export default function StockEdit(props) {
             {/* /.content */}
         </Container>
     );
+
 }

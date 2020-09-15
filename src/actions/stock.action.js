@@ -58,3 +58,12 @@ export const updateProduct = (formData, history) => {
     history.goBack();
   };
 };
+
+//delete Product by id
+export const deleteProduct = (id) => {
+  return async (dispatch) => {
+    debugger;
+    await httpClient.delete(`/stock/product/${id}`);
+    await doGetProducts(dispatch);
+  };
+};
